@@ -1,0 +1,55 @@
+.collection-requests-page {
+    display: flex;
+    height: 100vh;
+    background: url("../../../assets/image.png") no-repeat center center/cover;
+}
+
+.collection-requests-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.request-card {
+    background: #dbeafe;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.request-card h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.request-info {
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.request-info p {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #555;
+}
+
+.accept-btn {
+    background: #3b82f6;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+.accept-btn:hover {
+    background: #2563eb;
+}

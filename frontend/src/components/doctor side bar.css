@@ -1,0 +1,37 @@
+.sidebar {
+    width: 250px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+  }
+  
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    background: #dbeafe;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .sidebar-item:hover {
+    background: #3b82f6;
+    color: white;
+  }
+  
+  .logout {
+    background: #ff4d4d;
+    color: white;
+  }
+  
+  .active {
+    background: #dbeafe;
+    ;
+  }
+  

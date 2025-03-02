@@ -1,0 +1,26 @@
+.admin-container {
+    display: flex;
+    height: 100vh;
+    background: url("../../../assets/image.png") no-repeat center center/cover;
+  }
+  
+  .admin-content {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .header-title {
+    color: red;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: right;
+    margin-bottom: 20px;
+  }
+  
+  .card-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
