@@ -3,9 +3,9 @@ import "./EditUserDetails.css";
 
 const EditUserDetails = ({ user, onSave }) => {
   const [userData, setUserData] = useState({
-    first_name: user.first_name || "",
-    last_name: user.last_name || "",
-    phone: user.phone || "",
+    first_name: user.firstname || "",
+    last_name: user.lastname || "",
+    phone: user.phonenumber || "",
     email: user.email || "",
     address: user.address || "",
   });
@@ -15,20 +15,7 @@ const EditUserDetails = ({ user, onSave }) => {
   };
 
   const handleSave = () => {
-    // Send updated user data to backend API
-    fetch("/api/admin/edit", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log("Updated User Details:", data);
-        onSave(data);
-      })
-      .catch(error => console.error("Error updating user details:", error));
+    onSave(userData);
   };
 
   return (
@@ -44,7 +31,7 @@ const EditUserDetails = ({ user, onSave }) => {
       </div>
       <div className="input-group">
         <label>Phone Number:</label>
-        <input type="text" name="phone" value={userData.phone} onChange={handleChange} />
+        <input type="text" name="phonenumber" value={userData.phone} onChange={handleChange} />
       </div>
       <div className="input-group">
         <label>Email:</label>

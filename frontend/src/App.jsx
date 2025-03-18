@@ -8,6 +8,7 @@ import MakeRequest from "./pages/doctor/make request/make request";
 import CollectionRequests from "./pages/BCS/Collection request/collection request"; // Ensure correct import
 import LogoutB from "./pages/BCS/logout/logoutB"; // Ensure correct import
 import LogoutD from "./pages/doctor/logout/logoutD"; // Ensure correct import
+import RegisterUser from "./pages/Admin/regester user/regesteruser"; // Corrected import statement
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/collection-requests" element={<CollectionRequests />} />
           <Route path="/logoutB" element={<LogoutB />} />
           <Route path="/logoutD" element={<LogoutD />} />
+          <Route path="/registeruser" element={<RegisterUser />} /> 
         </Routes>
       </div>
     </Router>

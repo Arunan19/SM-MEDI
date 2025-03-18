@@ -1,11 +1,11 @@
 const bcrypt = require("bcryptjs");
-const { getUserById, updateUserDetails, updateUserPassword } = require("../models/user_Model");
+const { getUserById, updateUserDetails, updateUserPassword } = require("../models/user_Model.js");
 
 // ✅ Get User Profile
 const getUserProfile = async (req, res) => {
     try {
-        const userid = req.user.user_id; // Ensure `authenticateToken` sets this
-
+        const userid = req.user.user_id; // Extract user ID from token
+        
         if (!userid) {
             return res.status(400).json({ message: "User ID is required" });
         }
@@ -24,16 +24,16 @@ const getUserProfile = async (req, res) => {
 };
 
 // ✅ Edit User Details
-const editUserDetails = async (req, res) => {
+const editUserProfile = async (req, res) => {
     try {
         const userid = req.user.user_id;
-        const { firstname, lastname, phonenumber, email, address } = req.body;
+        const { FirstName, LastName, PhoneNumber, Email, Address } = req.body;
 
-        const updatedUser = await updateUserDetails(userid, firstname, lastname, phonenumber, email, address);
+        const updatedUser = await updateUserDetails(userid, FirstName, LastName, PhoneNumber, Email, Address);
 
-        res.json({ message: "User details updated successfully", user: updatedUser });
+        res.json({ message: "User profile updated successfully", user: updatedUser });
     } catch (error) {
-        console.error("Error updating user details:", error);
+        console.error("Error updating user profile:", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
@@ -64,4 +64,4 @@ const changeUserPassword = async (req, res) => {
     }
 };
 
-module.exports = { getUserProfile, editUserDetails, changeUserPassword };
+module.exports = { getUserProfile, editUserProfile, changeUserPassword };

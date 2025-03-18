@@ -31,7 +31,7 @@ const Login = () => {
           window.location.href = "/profileD";
           break;
         case "BCS":
-          window.location.href = "/profileB";
+          window.location.href = "/bsc-profile";
           break;
         case "MLT":
           window.location.href = "/profileM";
