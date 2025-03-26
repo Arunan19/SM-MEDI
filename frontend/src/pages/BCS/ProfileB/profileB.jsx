@@ -16,7 +16,7 @@ const BSCProfile = () => {
           throw new Error("No authentication token found. Please log in.");
         }
 
-        const response = await fetch("http://localhost:5000/api/user/profile", {
+        const response = await fetch("http://localhost:5000/api/users/arunan", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

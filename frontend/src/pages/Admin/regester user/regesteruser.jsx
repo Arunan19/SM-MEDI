@@ -9,33 +9,46 @@ const RegisterUser = () => {
     lastName: "",
     email: "",
     username: "",
-    address: "", // ✅ Added Address field
+    address: "",
     password: "",
     role: "Admin",
   });
+
   const [deleteUser, setDeleteUser] = useState({
     userId: "",
     adminUsername: "",
     password: "",
   });
-  const [filterRole, setFilterRole] = useState(""); // Add state for filter role
 
-  // Fetch users from the backend
+  const [showRegisterPopup, setShowRegisterPopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/users");
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:5000/api/users", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch users");
+      }
+
       const data = await response.json();
-      setUsers(data);
+      setUsers(data.users);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  };
+  }; // ✅ Fixed missing closing bracket
 
-  // Handle form input changes
   const handleInputChange = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
@@ -44,11 +57,10 @@ const RegisterUser = () => {
     setDeleteUser({ ...deleteUser, [e.target.name]: e.target.value });
   };
 
-  // Add user function
   const handleAddUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/users/add", {
+      const response = await fetch("http://localhost:5000/api/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,6 +71,7 @@ const RegisterUser = () => {
       if (response.ok) {
         alert("User added successfully!");
         fetchUsers();
+        setShowRegisterPopup(false);
         setNewUser({
           firstName: "",
           lastName: "",
@@ -70,14 +83,13 @@ const RegisterUser = () => {
         });
       } else {
         const errorMessage = await response.json();
-        alert(errorMessage.message);
+        alert(errorMessage.error || "Failed to add user");
       }
     } catch (error) {
       console.error("Error adding user:", error);
     }
   };
 
-  // Delete user function
   const handleDeleteUser = async (e) => {
     e.preventDefault();
     try {
@@ -92,30 +104,75 @@ const RegisterUser = () => {
       if (response.ok) {
         alert("User deleted successfully!");
         fetchUsers();
+        setShowDeletePopup(false);
         setDeleteUser({ userId: "", adminUsername: "", password: "" });
       } else {
         const errorMessage = await response.json();
-        alert(errorMessage.error);
+        alert(errorMessage.error || "Failed to delete user");
       }
     } catch (error) {
       console.error("Error deleting user:", error);
     }
   };
 
-  // Filter users by role
-  const filteredUsers = filterRole
-    ? users.filter((user) => user.role === filterRole)
-    : users;
-
   return (
-    <div className="register-container"> {/* Ensure this class name matches the CSS */}
+    <div className="register-container">
       <Sidebar />
-      <div className="content">
-        <h1 className="title">Register User</h1>
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th colSpan="8" className="table-header">
+                <div className="table-header-content">
+                  <h2>User Details      
+                  <button className="open-popup-btn" onClick={() => setShowRegisterPopup(true)}>
+                    Register User
+                  </button></h2>
+                </div>
+              </th>
+            </tr>
+            <tr>
+              <th>User ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Username</th>
+              <th>Address</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.userid}>
+                <td>{user.userid}</td>
+                <td>{user.firstname}</td>
+                <td>{user.lastname}</td>
+                <td>{user.email}</td>
+                <td>{user.username}</td>
+                <td>{user.address}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button
+                    className="delete-btn"
+                    onClick={() => {
+                      setDeleteUser({ userId: user.userid, adminUsername: "", password: "" });
+                      setShowDeletePopup(true);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-        <div className="forms-container">
-          {/* Add User Form */}
-          <div className="form-container add-form">
+      {/* Register User Popup */}
+      {showRegisterPopup && (
+        <div className="popup">
+          <div className="popup-content">
             <h2>Add User</h2>
             <form onSubmit={handleAddUser}>
               <label>First Name:</label>
@@ -130,7 +187,7 @@ const RegisterUser = () => {
               <label>Username:</label>
               <input type="text" name="username" value={newUser.username} onChange={handleInputChange} required />
 
-              <label>Address:</label> {/* ✅ Added Address */}
+              <label>Address:</label>
               <input type="text" name="address" value={newUser.address} onChange={handleInputChange} required />
 
               <label>Password:</label>
@@ -145,73 +202,46 @@ const RegisterUser = () => {
               </select>
 
               <button type="submit">Add</button>
+              <button type="button" className="close-popup-btn" onClick={() => setShowRegisterPopup(false)}>
+                Close
+              </button>
             </form>
           </div>
+        </div>
+      )}
 
-          {/* Delete User Form */}
-          <div className="form-container delete-form">
+      {/* Delete User Popup */}
+      {showDeletePopup && (
+        <div className="popup">
+          <div className="popup-content">
             <h2>Delete User</h2>
             <form onSubmit={handleDeleteUser}>
-              <label>User ID:</label>
-              <input type="text" name="userId" value={deleteUser.userId} onChange={handleDeleteInputChange} required />
-
               <label>Username for Admin:</label>
-              <input type="text" name="adminUsername" value={deleteUser.adminUsername} onChange={handleDeleteInputChange} required />
+              <input
+                type="text"
+                name="adminUsername"
+                value={deleteUser.adminUsername}
+                onChange={handleDeleteInputChange}
+                required
+              />
 
               <label>Password:</label>
-              <input type="password" name="password" value={deleteUser.password} onChange={handleDeleteInputChange} required />
+              <input
+                type="password"
+                name="password"
+                value={deleteUser.password}
+                onChange={handleDeleteInputChange}
+                required
+              />
 
-              <button type="submit">Delete</button>
+              <button type="submit">Confirm Delete</button>
+              <button type="button" className="close-popup-btn" onClick={() => setShowDeletePopup(false)}>
+                Close
+              </button>
             </form>
           </div>
         </div>
-
-        {/* User Table */}
-        <div className="table-container">
-          <h2>User Details</h2>
-          <div className="filter-container">
-            <label>Filter by Role:</label>
-            <select
-              value={filterRole}
-              onChange={(e) => setFilterRole(e.target.value)}
-            >
-              <option value="">All</option>
-              <option value="Admin">Admin</option>
-              <option value="Doctor">Doctor</option>
-              <option value="MLT">MLT</option>
-              <option value="BCS">BCS</option>
-            </select>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>User ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Username</th>
-                <th>Address</th> {/* ✅ Address Column Added */}
-                <th>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.isArray(filteredUsers) &&
-                filteredUsers.map((user) => (
-                  <tr key={user.UserId}>
-                    <td>{user.userid}</td>
-                    <td>{user.firstname}</td>
-                    <td>{user.lastname}</td>
-                    <td>{user.email}</td>
-                    <td>{user.username}</td>
-                    <td>{user.address}</td>
-                    <td>{user.role}</td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-
-      </div>
+      )}
     </div>
   );
 };

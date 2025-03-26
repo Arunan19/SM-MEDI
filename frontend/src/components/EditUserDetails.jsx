@@ -1,37 +1,64 @@
 import React, { useState } from "react";
-import "./EditUserDetails.css"; 
+import "./EditUserDetails.css";
 
-const EditUserDetails = ({ user, onSave }) => {
+const EditUserDetails = ({ user }) => {
   const [userData, setUserData] = useState({
-    first_name: user.firstname || "",
-    last_name: user.lastname || "",
+    firstname: user.firstname || "",
+    lastname: user.lastname || "",
     phone: user.phonenumber || "",
     email: user.email || "",
     address: user.address || "",
   });
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
+    setMessage(""); // Clear any previous messages
   };
 
-  const handleSave = () => {
-    onSave(userData);
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+      const response = await fetch(`http://localhost:5000/api/users/${user.username}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error response from server:", errorData);
+        setMessage(errorData.message || "Failed to update user details.");
+        return;
+      }
+
+      const successData = await response.json();
+      console.log("Success response from server:", successData);
+      setMessage("User details updated successfully!");
+    } catch (error) {
+      console.error("Error updating user details:", error);
+      setMessage("An error occurred while updating user details.");
+    }
   };
 
   return (
     <div className="edit-user-section">
       <h3>Edit User Details</h3>
+      {message && <p className="message">{message}</p>}
       <div className="input-group">
         <label>First Name:</label>
-        <input type="text" name="first_name" value={userData.first_name} onChange={handleChange} />
+        <input type="text" name="firstname" value={userData.firstname} onChange={handleChange} />
       </div>
       <div className="input-group">
         <label>Last Name:</label>
-        <input type="text" name="last_name" value={userData.last_name} onChange={handleChange} />
+        <input type="text" name="lastname" value={userData.lastname} onChange={handleChange} />
       </div>
       <div className="input-group">
         <label>Phone Number:</label>
-        <input type="text" name="phonenumber" value={userData.phone} onChange={handleChange} />
+        <input type="text" name="phone" value={userData.phone} onChange={handleChange} />
       </div>
       <div className="input-group">
         <label>Email:</label>

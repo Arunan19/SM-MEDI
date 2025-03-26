@@ -1,5 +1,4 @@
-
-/* Ensure the correct class name is applied to the container */
+/* Container Styles */
 .register-container {
   display: flex;
   height: 100vh;
@@ -9,153 +8,188 @@
 .content {
   flex: 1;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-y: auto;
+  position: relative;
 }
 
+
+/* Center "User Details" Title */
 .title {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
-  color: #000;
   text-align: center;
-  width: 100%;
-}
-
-.forms-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 900px;
-}
-
-.form-container {
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  width: 48%;
   margin-bottom: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ccc;
+  position: relative;
 }
 
-.form-container h2 {
-  margin-bottom: 10px;
+/* Manage Users (Kept this) */
+.manage-users-text {
   font-size: 18px;
-  color: #333;
-}
-
-.form-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-container input,
-.form-container select,
-.form-container button {
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.form-container button {
-  padding: 10px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.form-container button:hover {
-  background: #0056b3;
-}
-
-.table-container {
-  width: 80%;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-}
-
-.table-container h2 {
-  text-align: center;
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
-.table-container input,
-.table-container select {
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+/* Register User Button */
+.register-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  position: absolute;
+  left: 0; /* Move to left */
+  top: 500; /* Move above table */
+  margin-top: 10px; /* Some spacing */
 }
 
-.filter-container {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
+.register-btn:hover {
+  background-color: #0056b3;
 }
 
-.filter-container label {
-  margin-right: 10px;
-  font-weight: bold;
-}
-
-.filter-container select {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+/* Table Styles */
+.table-container {
+  margin-top: 50px; /* Space to prevent overlapping with button */
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
+  background-color: white; /* Fully white table */
 }
 
-table th, table td {
+th, td {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   text-align: left;
 }
 
-table th {
-  background: #f2f2f2;
+th {
+  background-color: #1f1882; /* Green heading */
+  color: white;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Delete Button */
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* Popup Styles */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.popup-content h2 {
+  margin-bottom: 15px;
+}
+
+.popup-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-content label {
+  text-align: left;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.popup-content input, .popup-content select {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.popup-content button {
+  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.popup-content .align-right {
+  align-self: flex-end;
+  text-align: right;
+}
+.popup-content button[type="submit"] {
+  background-color: #007bff;
   color: white;
 }
 
-@media (max-width: 768px) {
-  .forms-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .form-container {
-    width: 100%;
-  }
-
-  .table-container {
-    width: 100%;
-  }
+.popup-content button[type="submit"]:hover {
+  background-color: #0056b3;
 }
 
-.register-container {
+.close-popup-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.close-popup-btn:hover {
+  background-color: #5a6268;
+}
+
+/* Centering Table Title */
+.table-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Button Container for Proper Placement */
+.button-container {
   display: flex;
-  height: 100vh;
-  background: url('../../../assets/image.png') no-repeat center center/cover;
+  justify-content: flex-start; /* Aligns the button to the left */
+  margin-bottom: 15px; /* Adds spacing below the button */
 }
 
-.add-form {
-  /* Additional styles for add form if needed */
+.open-popup-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left:600px;
 }
 
-.delete-form {
-  /* Additional styles for delete form if needed */
+.open-popup-btn:hover {
+  background-color: #0056b3;
 }

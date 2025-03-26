@@ -5,44 +5,36 @@ import UserDetails from "../../../components/user details";
 
 const AdminProfile = () => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("No authentication token found. Please log in.");
-        }
-
-        const response = await fetch("http://localhost:5000/api/user/profile", {
+        const response = await fetch("http://localhost:5000/api/users/arunan", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Send token for authentication
           },
         });
 
         if (!response.ok) {
-          throw new Error(`Server error: ${response.status} - ${await response.text()}`);
+          throw new Error("Failed to fetch user data");
         }
 
-        const data = await response.json();
-        setUser(data);
+        const userData = await response.json();
+        setUser(userData);
       } catch (error) {
-        console.error("Error fetching user data:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
+        console.error("Error fetching user:", error.message);
       }
     };
 
-    fetchUserData();
+    fetchUser();
   }, []);
 
-  if (loading) return <div className="loading-message">Loading...</div>;
-  if (error) return <div className="error-message">{error}</div>;
+  if (!user) {
+    return <p>Loading user details...</p>;
+  }
 
   return (
     <div className="admin-container">
@@ -50,7 +42,7 @@ const AdminProfile = () => {
       <div className="admin-content">
         <h1 className="header-title">S.M. Medi Lab</h1>
         <div className="card-container">
-          <UserDetails user={user} role={user.Role} />
+          <UserDetails user={user} role={user.role} /> {/* Use correct prop name */}
         </div>
       </div>
     </div>

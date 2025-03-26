@@ -24,20 +24,27 @@ const getUserProfile = async (req, res) => {
 };
 
 // ✅ Edit User Details
-const editUserProfile = async (req, res) => {
+const editUserDetails = async (req, res) => {
+    const { userid, firstname, lastname, email, address, phonenumber } = req.body;
+  
     try {
-        const userid = req.user.user_id;
-        const { FirstName, LastName, PhoneNumber, Email, Address } = req.body;
-
-        const updatedUser = await updateUserDetails(userid, FirstName, LastName, PhoneNumber, Email, Address);
-
-        res.json({ message: "User profile updated successfully", user: updatedUser });
+      const result = await pool.query(
+        `UPDATE "User" 
+         SET FirstName = $1, LastName = $2, Email = $3, Address = $4, PhoneNumber = $5 
+         WHERE UserId = $6 RETURNING *`,
+        [firstname, lastname, email, address, phonenumber, userid]
+      );
+  
+      if (result.rowCount === 0) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.json({ message: "User updated successfully", user: result.rows[0] });
     } catch (error) {
-        console.error("Error updating user profile:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+      console.error("Error updating user details:", error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
-};
-
+  };
 // ✅ Change User Password
 const changeUserPassword = async (req, res) => {
     try {
