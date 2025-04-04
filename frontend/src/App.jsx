@@ -9,6 +9,7 @@ import CollectionRequests from "./pages/BCS/Collection request/collection reques
 import LogoutB from "./pages/BCS/logout/logoutB"; // Ensure correct import
 import LogoutD from "./pages/doctor/logout/logoutD"; // Ensure correct import
 import RegisterUser from "./pages/Admin/regester user/regesteruser"; // Corrected import statement
+import AttendancePage from "./pages/Admin/Attendance/Attendance";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/logoutB" element={<LogoutB />} />
           <Route path="/logoutD" element={<LogoutD />} />
           <Route path="/registeruser" element={<RegisterUser />} /> 
+          <Route path="/attendance" element={<AttendancePage />} />
         </Routes>
       </div>
     </Router>

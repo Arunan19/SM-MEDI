@@ -47,7 +47,7 @@ const RegisterUser = () => {
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  }; // ✅ Fixed missing closing bracket
+  }; 
 
   const handleInputChange = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -79,6 +79,7 @@ const RegisterUser = () => {
           username: "",
           address: "",
           password: "",
+          phone: "",
           role: "Admin",
         });
       } else {
@@ -192,7 +193,10 @@ const RegisterUser = () => {
 
               <label>Password:</label>
               <input type="password" name="password" value={newUser.password} onChange={handleInputChange} required />
-
+              
+              <label>phone:</label>
+              <input type="phone" name="phone" value={newUser.phone} onChange={handleInputChange} required />
+              
               <label>Role:</label>
               <select name="role" value={newUser.role} onChange={handleInputChange}>
                 <option value="Admin">Admin</option>
@@ -220,7 +224,7 @@ const RegisterUser = () => {
               <input
                 type="text"
                 name="adminUsername"
-                value={deleteUser.adminUsername}
+                value={deleteUser.Username}
                 onChange={handleDeleteInputChange}
                 required
               />
