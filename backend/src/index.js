@@ -6,7 +6,8 @@ require('dotenv').config();
 
 const userRoutes = require('./routes/userRoutes');
 const attendanceRoutes = require('./routes/AttendanceRoutes');
-
+const inventoryRoutes = require('./routes/inventoryRoutes');
+const equipmentRoutes = require('./routes/equipmentRoutes'); 
 
 const app = express();
 app.use(cors());
@@ -16,6 +17,8 @@ app.use(bodyParser.json());
 // Routes
 app.use('/api', userRoutes);
 app.use('/api', attendanceRoutes);
+app.use('/api', inventoryRoutes);
+app.use('/api/equipment', equipmentRoutes); 
 
 // Default route
 app.get('/', (req, res) => {
