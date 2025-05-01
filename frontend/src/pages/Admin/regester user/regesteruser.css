@@ -5,27 +5,23 @@
   background: url('../../../assets/image.png') no-repeat center center/cover;
 }
 
+/* Ensure all CSS code is here, not in the JSX file */
+
 .content {
   flex: 1;
   padding: 20px;
-  position: relative;
+  display: flex;
+  flex-direction: column; /* Ensures vertical stacking of elements */
+  justify-content: flex-start; /* Align elements at the top */
+  align-items: center; /* Centers the content horizontally */
 }
-
 
 /* Center "User Details" Title */
 .title {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 20px;
-  position: relative;
-}
-
-/* Manage Users (Kept this) */
-.manage-users-text {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 20px; /* Reduced space to position table directly below */
 }
 
 /* Register User Button */
@@ -37,10 +33,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  position: absolute;
-  left: 0; /* Move to left */
-  top: 500; /* Move above table */
-  margin-top: 10px; /* Some spacing */
+  margin-top: 20px; /* Added margin for spacing below button */
 }
 
 .register-btn:hover {
@@ -49,13 +42,15 @@
 
 /* Table Styles */
 .table-container {
-  margin-top: 50px; /* Space to prevent overlapping with button */
+  width: 100%; /* Ensures full-width table */
+  margin-top: 10px; /* Small gap between title and table */
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white; /* Fully white table */
+  background-color: white;
+  margin-top: 10px; /* Ensures proper space between table and other elements */
 }
 
 th, td {
@@ -65,13 +60,38 @@ th, td {
 }
 
 th {
-  background-color: #1f1882; /* Green heading */
+  background-color: #1f1882;
   color: white;
   text-align: center;
 }
 
 tr:nth-child(even) {
   background-color: #f9f9f9;
+}
+
+/* Table Title */
+.table-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Table Header */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.table-header button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 /* Delete Button */
@@ -89,107 +109,81 @@ tr:nth-child(even) {
   background-color: #c82333;
 }
 
-/* Popup Styles */
 .popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .popup-content {
-  background: white;
+  background-color: #fff;
   padding: 20px;
-  width: 400px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
 .popup-content h2 {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
 }
 
 .popup-content form {
   display: flex;
   flex-direction: column;
+  gap: 15px; /* Add spacing between rows */
 }
 
-.popup-content label {
-  text-align: left;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.popup-content input, .popup-content select {
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.popup-content button {
-  margin-top: 15px;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-.popup-content .align-right {
-  align-self: flex-end;
-  text-align: right;
-}
-.popup-content button[type="submit"] {
-  background-color: #007bff;
-  color: white;
-}
-
-.popup-content button[type="submit"]:hover {
-  background-color: #0056b3;
-}
-
-.close-popup-btn {
-  background-color: #6c757d;
-  color: white;
-}
-
-.close-popup-btn:hover {
-  background-color: #5a6268;
-}
-
-/* Centering Table Title */
-.table-title {
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-/* Button Container for Proper Placement */
-.button-container {
+.popup-content form .form-row {
   display: flex;
-  justify-content: flex-start; /* Aligns the button to the left */
-  margin-bottom: 15px; /* Adds spacing below the button */
+  align-items: center; /* Align items vertically in the center */
+  justify-content: flex-start; /* Align items horizontally to the left */
+  gap: 10px; /* Add spacing between label and input */
 }
 
-.open-popup-btn {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 15px;
+.popup-content form label {
+  flex: 0 0 30%; /* Ensure label takes up 30% of the row */
+  text-align: right;
+  margin: 0;
+}
+
+.popup-content form input,
+.popup-content form select {
+  flex: 1; /* Input fields take the remaining space */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.popup-content form button {
+  padding: 10px 20px;
+  margin: 5px;
   border: none;
   border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 16px;
-  margin-left:600px;
 }
 
-.open-popup-btn:hover {
-  background-color: #0056b3;
+.popup-content form button[type="submit"] {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.popup-content form button.close-popup-btn {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.popup-content form button:hover {
+  opacity: 0.9;
 }

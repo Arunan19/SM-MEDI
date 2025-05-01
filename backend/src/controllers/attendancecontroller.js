@@ -22,7 +22,7 @@ exports.autoMarkAttendance = async (req, res) => {
       const [existing] = await db.execute(checkQuery, [user.userid, today]);
 
       if (existing.length === 0) {
-        const insertQuery = `INSERT INTO Attendance (userid, date, status) VALUES (?, ?, 'Absent')`;
+        const insertQuery = `INSERT INTO Attendance (userid, date, status) VALUES (?, ?, 'Present')`;
         await db.execute(insertQuery, [user.userid, today]);
       }
     }

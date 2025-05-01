@@ -5,8 +5,8 @@ import "./regesteruser.css";
 const RegisterUser = () => {
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     username: "",
     address: "",
@@ -176,35 +176,43 @@ const RegisterUser = () => {
           <div className="popup-content">
             <h2>Add User</h2>
             <form onSubmit={handleAddUser}>
-              <label>First Name:</label>
-              <input type="text" name="firstName" value={newUser.firstName} onChange={handleInputChange} required />
-
-              <label>Last Name:</label>
-              <input type="text" name="lastName" value={newUser.lastName} onChange={handleInputChange} required />
-
-              <label>Email:</label>
-              <input type="email" name="email" value={newUser.email} onChange={handleInputChange} required />
-
-              <label>Username:</label>
-              <input type="text" name="username" value={newUser.username} onChange={handleInputChange} required />
-
-              <label>Address:</label>
-              <input type="text" name="address" value={newUser.address} onChange={handleInputChange} required />
-
-              <label>Password:</label>
-              <input type="password" name="password" value={newUser.password} onChange={handleInputChange} required />
-              
-              <label>phone:</label>
-              <input type="phone" name="phone" value={newUser.phone} onChange={handleInputChange} required />
-              
-              <label>Role:</label>
-              <select name="role" value={newUser.role} onChange={handleInputChange}>
-                <option value="Admin">Admin</option>
-                <option value="Doctor">Doctor</option>
-                <option value="MLT">MLT</option>
-                <option value="BCS">BCS</option>
-              </select>
-
+              <div className="form-row">
+                <label>First Name:</label>
+                <input type="text" name="firstname" value={newUser.firstname} onChange={handleInputChange} required />
+              </div>
+              <div className="form-row">
+                <label>Last Name:</label>
+                <input type="text" name="lastname" value={newUser.lastname} onChange={handleInputChange} required />
+              </div>
+              <div className="form-row">
+                <label>Email:</label>
+                <input type="email" name="email" value={newUser.email} onChange={handleInputChange} required />
+              </div>
+              <div className="form-row">
+                <label>Username:</label>
+                <input type="text" name="username" value={newUser.username} onChange={handleInputChange} required />
+              </div>
+              <div className="form-row">
+                <label>Address:</label>
+                <input type="text" name="address" value={newUser.address} onChange={handleInputChange} required />
+              </div>
+              <div className="form-row">
+                <label>Password:</label>
+                <input type="password" name="password" value={newUser.password} onChange={handleInputChange} required />
+              </div>
+              <div className="form-row">
+                <label>Phone:</label>
+                <input type="phone" name="phone" value={newUser.phone} onChange={handleInputChange} required />
+              </div>
+              <div className="form-row">
+                <label>Role:</label>
+                <select name="role" value={newUser.role} onChange={handleInputChange}>
+                  <option value="Admin">Admin</option>
+                  <option value="Doctor">Doctor</option>
+                  <option value="MLT">MLT</option>
+                  <option value="BCS">BCS</option>
+                </select>
+              </div>
               <button type="submit">Add</button>
               <button type="button" className="close-popup-btn" onClick={() => setShowRegisterPopup(false)}>
                 Close

@@ -18,7 +18,9 @@ const Sidebar = () => {
       <button className="sidebar-item"onClick={() => navigate("/attendance")}>
         <FontAwesomeIcon icon={faCalendarCheck} className="icon"/> Attendance
       </button>
-      <button className="sidebar-item"><FontAwesomeIcon icon={faBox} /> Inventory</button>
+      <button className="sidebar-item"onClick={() => navigate("/inventory")}>
+        <FontAwesomeIcon icon={faBox} className="icon"/> Inventory
+        </button>
       <button className="sidebar-item"><FontAwesomeIcon icon={faUsers} /> Recruit Staff</button>
       <button className="sidebar-item"><FontAwesomeIcon icon={faFileAlt} /> Reports</button>
       <button className="sidebar-item"><FontAwesomeIcon icon={faUserInjured} /> Patients</button>

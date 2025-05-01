@@ -10,6 +10,7 @@ import LogoutB from "./pages/BCS/logout/logoutB"; // Ensure correct import
 import LogoutD from "./pages/doctor/logout/logoutD"; // Ensure correct import
 import RegisterUser from "./pages/Admin/regester user/regesteruser"; // Corrected import statement
 import AttendancePage from "./pages/Admin/Attendance/Attendance";
+import InventoryEquipmentPage from "./pages/Admin/Inventory/Inventory";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/logoutD" element={<LogoutD />} />
           <Route path="/registeruser" element={<RegisterUser />} /> 
           <Route path="/attendance" element={<AttendancePage />} />
+          <Route path="/inventory" element={<InventoryEquipmentPage />} />
         </Routes>
       </div>
     </Router>

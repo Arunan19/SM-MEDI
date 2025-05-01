@@ -65,7 +65,7 @@ const AttendancePage = () => {
 
   const handleMarkAbsent = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/attendance/auto-mark-absent", {
+      const response = await fetch("http://localhost:5000/api/attendance/auto", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,7 +73,7 @@ const AttendancePage = () => {
       });
 
       if (response.ok) {
-        alert("Absent marked successfully!");
+        alert("Present marked successfully!");
         fetchAttendanceRecords();
       } else {
         alert("Failed to mark absent");
@@ -106,8 +106,7 @@ const AttendancePage = () => {
           <button type="submit">Mark Attendance</button>
         </form>
 
-        <button onClick={handleMarkAbsent} className="mark-absent-btn">Mark Absent</button>
-
+        <button onClick={handleMarkAbsent} className="mark-absent-btn">Mark Present</button>
         <table>
           <thead>
             <tr>
