@@ -8,6 +8,11 @@ const userRoutes = require('./routes/userRoutes');
 const attendanceRoutes = require('./routes/AttendanceRoutes');
 const inventoryRoutes = require('./routes/inventoryRoutes');
 const equipmentRoutes = require('./routes/equipmentRoutes'); 
+const patientRoutes = require('./routes/patientRoutes');
+const labTestRoutes = require('./routes/labTestRoutes');
+const patientTestRoutes = require('./routes/patientTestRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+
 
 const app = express();
 app.use(cors());
@@ -19,6 +24,10 @@ app.use('/api', userRoutes);
 app.use('/api', attendanceRoutes);
 app.use('/api', inventoryRoutes);
 app.use('/api/equipment', equipmentRoutes); 
+app.use('/api/patients', patientRoutes);
+app.use('/api/lab-tests', labTestRoutes);
+app.use('/api/patient-tests', patientTestRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Default route
 app.get('/', (req, res) => {

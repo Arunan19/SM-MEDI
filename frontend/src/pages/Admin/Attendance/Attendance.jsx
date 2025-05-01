@@ -9,6 +9,8 @@ const AttendancePage = () => {
     date: "",
     status: "Present",
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 10;
 
   useEffect(() => {
     fetchAttendanceRecords();
@@ -83,6 +85,23 @@ const AttendancePage = () => {
     }
   };
 
+  const handleNextPage = () => {
+    if (currentPage * recordsPerPage < attendanceRecords.length) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const paginatedRecords = attendanceRecords.slice(
+    (currentPage - 1) * recordsPerPage,
+    currentPage * recordsPerPage
+  );
+
   return (
     <div className="attendance-container">
       <Sidebar />
@@ -125,7 +144,7 @@ const AttendancePage = () => {
             </tr>
           </thead>
           <tbody>
-            {attendanceRecords.map((record) => (
+            {paginatedRecords.map((record) => (
               <tr key={record.Attendance_id}>
                 <td>{record.employeeId}</td> {/* Use 'username' instead of 'employeeId' */}
                 <td>{record.firstname}</td> {/* Ensure 'firstname' matches backend */}
@@ -136,6 +155,17 @@ const AttendancePage = () => {
             ))}
           </tbody>
         </table>
+        <div className="pagination-buttons">
+          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            Previous
+          </button>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage * recordsPerPage >= attendanceRecords.length}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

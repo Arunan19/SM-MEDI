@@ -7,6 +7,7 @@ const InventoryEquipmentPage = () => {
   const [equipmentData, setEquipmentData] = useState([]);
   const [showInventoryForm, setShowInventoryForm] = useState(false);
   const [showEquipmentForm, setShowEquipmentForm] = useState(false);
+  const [editEquipment, setEditEquipment] = useState(null); // State for editing equipment
 
   const [newInventory, setNewInventory] = useState({
     item_name: "",
@@ -29,6 +30,10 @@ const InventoryEquipmentPage = () => {
     last_serviced: "",
     added_by: "",
   });
+
+  const [inventoryPage, setInventoryPage] = useState(0);
+  const [equipmentPage, setEquipmentPage] = useState(0);
+  const recordsPerPage = 10;
 
   useEffect(() => {
     fetchInventory();
@@ -58,6 +63,11 @@ const InventoryEquipmentPage = () => {
     setShowInventoryForm(false);
   };
 
+  const handleEditEquipment = (equipment) => {
+    setEditEquipment(equipment);
+    setShowEquipmentForm(true);
+  };
+
   const handleEquipmentSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,24 +81,55 @@ const InventoryEquipmentPage = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/equipment", {
-        method: "POST",
+      const url = editEquipment
+        ? `http://localhost:5000/api/equipment/${editEquipment.equipment_id}`
+        : "http://localhost:5000/api/equipment";
+
+      const method = editEquipment ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formattedEquipment),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        console.error("Error adding equipment:", error);
-        alert(error.message || "Failed to add equipment");
+        console.error("Error:", error);
+        alert(error.message || "Failed to save equipment");
       } else {
-        alert("Equipment added successfully!");
+        alert(editEquipment ? "Equipment updated successfully!" : "Equipment added successfully!");
         fetchEquipment();
         setShowEquipmentForm(false);
+        setEditEquipment(null);
       }
     } catch (error) {
       console.error("Network or server error:", error);
       alert("An error occurred. Please try again later.");
+    }
+  };
+
+  const handleInventoryNext = () => {
+    if ((inventoryPage + 1) * recordsPerPage < inventoryData.length) {
+      setInventoryPage(inventoryPage + 1);
+    }
+  };
+
+  const handleInventoryPrevious = () => {
+    if (inventoryPage > 0) {
+      setInventoryPage(inventoryPage - 1);
+    }
+  };
+
+  const handleEquipmentNext = () => {
+    if ((equipmentPage + 1) * recordsPerPage < equipmentData.length) {
+      setEquipmentPage(equipmentPage + 1);
+    }
+  };
+
+  const handleEquipmentPrevious = () => {
+    if (equipmentPage > 0) {
+      setEquipmentPage(equipmentPage - 1);
     }
   };
 
@@ -116,26 +157,39 @@ const InventoryEquipmentPage = () => {
               </tr>
             </thead>
             <tbody>
-              {inventoryData.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.item_name}</td>
-                  <td>{item.category}</td>
-                  <td>{item.quantity}</td>
-                  <td>{item.supplier}</td>
-                  <td>{item.purchase_date}</td>
-                  <td>{item.expiry_date}</td>
-                </tr>
-              ))}
+              {inventoryData
+                .slice(inventoryPage * recordsPerPage, (inventoryPage + 1) * recordsPerPage)
+                .map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.item_name}</td>
+                    <td>{item.category}</td>
+                    <td>{item.quantity}</td>
+                    <td>{item.supplier}</td>
+                    <td>{item.purchase_date}</td>
+                    <td>{item.expiry_date}</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
+          <div className="pagination-buttons">
+            <button onClick={handleInventoryPrevious} disabled={inventoryPage === 0}>
+              Previous
+            </button>
+            <button
+              onClick={handleInventoryNext}
+              disabled={(inventoryPage + 1) * recordsPerPage >= inventoryData.length}
+            >
+              Next
+            </button>
+          </div>
         </div>
 
         {/* Equipment Section */}
         <div className="equipment-table-section">
           <div className="table-header">
             <h2>Equipment</h2>
-            <button onClick={() => setShowEquipmentForm(true)}>Add Equipment</button>
+            <button onClick={() => { setShowEquipmentForm(true); setEditEquipment(null); }}>Add Equipment</button>
           </div>
           <table>
             <thead>
@@ -148,23 +202,40 @@ const InventoryEquipmentPage = () => {
                 <th>Purchase Date</th>
                 <th>Status</th>
                 <th>Last Serviced</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {equipmentData.map((eq) => (
-                <tr key={eq.equipment_id}>
-                  <td>{eq.equipment_name}</td>
-                  <td>{eq.equipment_type}</td>
-                  <td>{eq.brand}</td>
-                  <td>{eq.model}</td>
-                  <td>{eq.quantity}</td>
-                  <td>{eq.purchase_date}</td>
-                  <td>{eq.status}</td>
-                  <td>{eq.last_serviced}</td>
-                </tr>
-              ))}
+              {equipmentData
+                .slice(equipmentPage * recordsPerPage, (equipmentPage + 1) * recordsPerPage)
+                .map((eq) => (
+                  <tr key={eq.equipment_id}>
+                    <td>{eq.equipment_name}</td>
+                    <td>{eq.equipment_type}</td>
+                    <td>{eq.brand}</td>
+                    <td>{eq.model}</td>
+                    <td>{eq.quantity}</td>
+                    <td>{eq.purchase_date}</td>
+                    <td>{eq.status}</td>
+                    <td>{eq.last_serviced}</td>
+                    <td>
+                      <button onClick={() => handleEditEquipment(eq)}>Edit</button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
+          <div className="pagination-buttons">
+            <button onClick={handleEquipmentPrevious} disabled={equipmentPage === 0}>
+              Previous
+            </button>
+            <button
+              onClick={handleEquipmentNext}
+              disabled={(equipmentPage + 1) * recordsPerPage >= equipmentData.length}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
 
@@ -200,7 +271,7 @@ const InventoryEquipmentPage = () => {
       {showEquipmentForm && (
         <div className="popup-overlay">
           <div className="popup-card">
-            <h3>Add Equipment</h3>
+            <h3>{editEquipment ? "Edit Equipment" : "Add Equipment"}</h3>
             <form onSubmit={handleEquipmentSubmit}>
               {Object.keys(newEquipment).map((field) => (
                 <input
@@ -208,16 +279,26 @@ const InventoryEquipmentPage = () => {
                   type={field.includes("date") ? "date" : "text"}
                   name={field}
                   placeholder={field.replace("_", " ")}
-                  value={newEquipment[field]}
+                  value={editEquipment ? editEquipment[field] || "" : newEquipment[field]}
                   onChange={(e) =>
-                    setNewEquipment({ ...newEquipment, [field]: e.target.value })
+                    editEquipment
+                      ? setEditEquipment({ ...editEquipment, [field]: e.target.value })
+                      : setNewEquipment({ ...newEquipment, [field]: e.target.value })
                   }
                   required={field !== "brand" && field !== "model" && field !== "last_serviced"}
                 />
               ))}
               <div className="popup-buttons">
-                <button type="submit">Submit</button>
-                <button type="button" onClick={() => setShowEquipmentForm(false)}>Cancel</button>
+                <button type="submit">{editEquipment ? "Update" : "Submit"}</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowEquipmentForm(false);
+                    setEditEquipment(null);
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>
