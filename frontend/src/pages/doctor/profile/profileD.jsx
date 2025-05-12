@@ -1,31 +1,49 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import "./ProfileD.css";
 import Sidebar from "../../../components/doctor side bar";
 import UserDetails from "../../../components/user details";
-import ChangePassword from "../../../components/ChangePassword";    
-import "./ProfileD.css";
 
 const DoctorProfile = () => {
   const [doctor, setDoctor] = useState(null);
+  const token = localStorage.getItem("token"); // Get token from localStorage
 
   useEffect(() => {
-    axios.get("http://localhost:5000/doctor/1")
-      .then((response) => {
-        console.log("Doctor data fetched:", response.data); // Log the fetched data
-        setDoctor(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching doctor data:", error); // Log the error
-        console.error("Error details:", error.response ? error.response.data : error.message); // Log detailed error
-      });
+    const fetchDoctor = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/users/arunan", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch doctor data");
+        }
+
+        const doctorData = await response.json();
+        setDoctor(doctorData);
+      } catch (error) {
+        console.error("Error fetching doctor:", error.message);
+      }
+    };
+
+    fetchDoctor();
   }, []);
+
+  if (!doctor) {
+    return <p>Loading doctor details...</p>;
+  }
 
   return (
     <div className="profile-container">
       <Sidebar />
       <div className="profile-content">
-        {doctor ? <UserDetails doctor={doctor} /> : <p>Loading...</p>} {/* Add a loading state */}
-        <ChangePassword />
+        <h1 className="header-title">S.M. Medi Lab - Doctor Profile</h1>
+        <div className="card-container">
+          <UserDetails user={doctor} role={doctor.role} />
+        </div>
       </div>
     </div>
   );

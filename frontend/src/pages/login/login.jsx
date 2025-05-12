@@ -27,8 +27,8 @@ const Login = () => {
         case "Admin":
           window.location.href = "/admin";
           break;
-        case "doctor":
-          window.location.href = "/profileD";
+        case "DOC":
+          window.location.href = "/profile";
           break;
         case "BCS":
           window.location.href = "/bsc-profile";
@@ -36,9 +36,7 @@ const Login = () => {
         case "MLT":
           window.location.href = "/profileM";
           break;
-        default:
-          window.location.href = "/dashboard";
-          break;
+        
       }
     } catch (err) {
       console.error("Login Error:", err); // Debugging statement

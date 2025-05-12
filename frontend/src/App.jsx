@@ -14,6 +14,7 @@ import InventoryEquipmentPage from "./pages/Admin/Inventory/Inventory";
 import PatientsPage from "./pages/Admin/patients/PatientsPage"; 
 import NotificationsPage from "./pages/Admin/notifications/notifications";  
 
+
 function App() {
   return (
     <Router>
@@ -32,6 +33,8 @@ function App() {
           <Route path="/inventory" element={<InventoryEquipmentPage />} />
           <Route path="/patients" element={<PatientsPage />} />
           <Route path="/notification" element={<NotificationsPage />} />
+          
+          
         </Routes>
       </div>
     </Router>
