@@ -13,35 +13,51 @@ exports.getAllNotifications = async (req, res) => {
 
 // Get notifications by recipient_id or role
 exports.getUserNotifications = async (req, res) => {
-  const { userid, role } = req.query;
+  let { userid, role } = req.query;
+
+  // Sanitize inputs
+  userid = userid?.trim();
+  role = role?.trim();
+
+  console.log("Sanitized Query Params:", { userid, role });
 
   try {
-    let query = `SELECT * FROM notifications WHERE `;
-    const params = [];
-
-    if (userid && role) {
-      query += `(recipient_id = ? OR recipient_role = ? OR recipient_role = 'all')`;
-      params.push(userid, role);
-    } else if (userid) {
-      query += `(recipient_id = ? OR recipient_role = 'all')`;
-      params.push(userid);
-    } else if (role) {
-      query += `(recipient_role = ? OR recipient_role = 'all')`;
-      params.push(role);
-    } else {
-      query = `SELECT * FROM notifications WHERE recipient_role = 'all'`;
+    if (!userid && !role) {
+      return res.status(400).json({ error: "userid or role is required" });
     }
 
-    query += ` ORDER BY created_at DESC`;
+    const params = [];
+    const conditions = [];
+
+    if (userid) {
+      conditions.push(`recipient_id = ?`);
+      params.push(userid);
+    }
+
+    if (role) {
+      conditions.push(`recipient_role = ?`);
+      params.push(role);
+    }
+
+    // Always include global notifications
+    conditions.push(`recipient_role = 'all'`);
+
+    const query = `
+      SELECT * FROM notifications
+      WHERE (${conditions.join(' OR ')})
+      ORDER BY created_at DESC
+    `;
+
+    console.log("QUERY:", query);
+    console.log("PARAMS:", params);
 
     const [results] = await db.query(query, params);
     res.json({ notifications: results });
-
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Database error", details: err.message });
   }
 };
-
 
 
 // Create a new notification

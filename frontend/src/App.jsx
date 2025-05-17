@@ -13,6 +13,12 @@ import AttendancePage from "./pages/Admin/Attendance/Attendance";
 import InventoryEquipmentPage from "./pages/Admin/Inventory/Inventory";
 import PatientsPage from "./pages/Admin/patients/PatientsPage"; 
 import NotificationsPage from "./pages/Admin/notifications/notifications";  
+import NotificationBCS from "./pages/BCS/notification/NotificationsPage";
+import SendFilePage from "./pages/Admin/SendFile/SendFileForm";
+import MLTProfile from "./pages/MLT/ProfileM/profileM";
+import TestRequests from "./pages/MLT/test/Test request";
+import NotificationPageM from "./pages/MLT/notificationM/NotificationsPageM";
+import ReceivedFiles from "./pages/doctor/report/ReceivedFiles";
 
 
 function App() {
@@ -33,7 +39,13 @@ function App() {
           <Route path="/inventory" element={<InventoryEquipmentPage />} />
           <Route path="/patients" element={<PatientsPage />} />
           <Route path="/notification" element={<NotificationsPage />} />
-          
+          <Route path="/notificationBCS" element={<NotificationBCS />} />
+          <Route path="/send-file" element={<SendFilePage />} />
+          <Route path="/profileM" element={<MLTProfile />} />
+          <Route path="/test-requests" element={<TestRequests />} />
+          <Route path="/notificationM" element={<NotificationPageM />} />
+          <Route path="/received-files" element={<ReceivedFiles />} />
+          {/* Add more routes as needed */}
           
         </Routes>
       </div>

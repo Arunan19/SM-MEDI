@@ -7,7 +7,7 @@ const pool = mysql.createPool({
   database: 'sm_medi',
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
+   queueLimit: 0,
   acquireTimeout: 10000, // Increase timeout for acquiring connection
   connectTimeout: 10000 // Increase connection timeout
 });

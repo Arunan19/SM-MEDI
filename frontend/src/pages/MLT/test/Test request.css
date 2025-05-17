@@ -1,0 +1,84 @@
+.collection-requests-page {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .collection-requests-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Horizontally center the content */
+    justify-content: center; /* Vertically center the content */
+    flex: 1;
+    margin-left: 250px; /* Adjust the margin based on the width of the sidebar */
+    text-align: center; /* Center the text in the container */
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .requests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center; /* Horizontally center each request card */
+  }
+  
+  .request-card {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px; /* Set the maximum width for each request card */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .request-info {
+    margin-bottom: 10px;
+  }
+  
+  .accept-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .accept-btn:hover {
+    background-color: #45a049;
+  }
+  
+  /* Adjusting Sidebar to fit */
+  .sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-right: 2px solid #ddd;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar a {
+    text-decoration: none;
+    color: #000;
+    margin-bottom: 15px;
+  }
+  
+  .sidebar a:hover {
+    color: #4CAF50;
+  }
+  

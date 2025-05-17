@@ -13,7 +13,7 @@ const labTestRoutes = require('./routes/labTestRoutes');
 const patientTestRoutes = require('./routes/patientTestRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const requestRoutes = require("./routes/sampleRequestRoutes");
-
+const sendFileRoutes = require("./routes/sendFile");
 
 
 const app = express();
@@ -30,7 +30,9 @@ app.use('/api/patients', patientRoutes);
 app.use('/api/lab-tests', labTestRoutes);
 app.use('/api/patient-tests', patientTestRoutes);
 app.use('/api/notifications', notificationRoutes);
+
 app.use("/api/requests", requestRoutes);
+app.use("/api", sendFileRoutes);
 
 // Default route
 app.get('/', (req, res) => {
