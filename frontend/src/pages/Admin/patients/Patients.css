@@ -108,8 +108,8 @@
   
   .popup-card form input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 8px;
+    margin-bottom: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
@@ -141,4 +141,54 @@
   .popup-buttons button:hover {
     opacity: 0.9;
   }
+
+  /* Action buttons in table */
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+  }
   
+  .edit-btn {
+    padding: 6px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .edit-btn:hover {
+    background-color: #45a049;
+  }
+  
+  /* Edit popup specific styles - simplified */
+  .edit-popup-card h3 { color: #4CAF50; }
+  .edit-popup-buttons button[type="submit"] { background-color: #4CAF50; }
+
+  /* Compact form styles */
+  .form-group { margin-bottom: 5px; }
+  .form-group label { display: block; font-weight: 500; }
+  .form-error { color: #dc3545; font-size: 0.8rem; }
+  
+  /* Reduce space between inputs */
+  .popup-card form input { margin-bottom: 8px; }
+
+  /* Edit popup styles */
+  .edit-popup-card {
+    width: 350px; /* Smaller width for edit popup */
+    padding: 15px; /* Smaller padding */
+  }
+  
+  .edit-popup-card h3 { color: #4CAF50; margin-bottom: 10px; }
+  .edit-popup-buttons button[type="submit"] { background-color: #4CAF50; }
+  
+  /* Extra compact form styles for edit popup */
+  .edit-popup-card form input {
+    margin-bottom: -30px;
+    padding: -8px;
+  }
+  
+  .edit-popup-card .form-group {
+    margin-bottom: -20px;
+  }

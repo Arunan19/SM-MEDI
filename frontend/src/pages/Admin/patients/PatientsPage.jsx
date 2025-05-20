@@ -33,6 +33,16 @@ const PatientsPage = () => {
   const [showPatientForm, setShowPatientForm] = useState(false);
   const [showTestForm, setShowTestForm] = useState(false);
   const [showPatientTestForm, setShowPatientTestForm] = useState(false);
+  
+  // Edit form states
+  const [showEditPatientForm, setShowEditPatientForm] = useState(false);
+  const [showEditTestForm, setShowEditTestForm] = useState(false);
+  const [showEditPatientTestForm, setShowEditPatientTestForm] = useState(false);
+  
+  // Editing entities
+  const [editingPatient, setEditingPatient] = useState(null);
+  const [editingTest, setEditingTest] = useState(null);
+  const [editingPatientTest, setEditingPatientTest] = useState(null);
 
   const [newPatient, setNewPatient] = useState({
     first_name: "",
@@ -173,6 +183,120 @@ const PatientsPage = () => {
     return test ? test.test_name : "Unknown";
   };
 
+  // Edit handlers for Patient
+  const handleEditPatient = (patient) => {
+    setEditingPatient({...patient});
+    setShowEditPatientForm(true);
+  };
+
+  const handleUpdatePatient = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`http://localhost:5000/api/patients/update/${editingPatient.patient_id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editingPatient)
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("Update failed:", errorText);
+        alert(`Update failed: ${res.statusText}`);
+        return;
+      }
+
+      const data = await res.json();
+      console.log("Update successful:", data);
+      
+      // Update the patients list
+      setPatients(patients.map(p => 
+        p.patient_id === editingPatient.patient_id ? editingPatient : p
+      ));
+      
+      setShowEditPatientForm(false);
+      setEditingPatient(null);
+    } catch (error) {
+      console.error("Error updating patient:", error);
+      alert("An error occurred during update. Please try again.");
+    }
+  };
+
+  // Edit handlers for Test
+  const handleEditTest = (test) => {
+    setEditingTest({...test});
+    setShowEditTestForm(true);
+  };
+
+  const handleUpdateTest = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`http://localhost:5000/api/lab-tests/update/${editingTest.test_id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editingTest)
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("Test update failed:", errorText);
+        alert(`Test update failed: ${res.statusText}`);
+        return;
+      }
+
+      const data = await res.json();
+      console.log("Test update successful:", data);
+      
+      // Update the tests list
+      setTests(tests.map(t => 
+        t.test_id === editingTest.test_id ? editingTest : t
+      ));
+      
+      setShowEditTestForm(false);
+      setEditingTest(null);
+    } catch (error) {
+      console.error("Error updating test:", error);
+      alert("An error occurred during test update. Please try again.");
+    }
+  };
+
+  // Edit handlers for PatientTest
+  const handleEditPatientTest = (patientTest) => {
+    setEditingPatientTest({...patientTest});
+    setShowEditPatientTestForm(true);
+  };
+
+  const handleUpdatePatientTest = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`http://localhost:5000/api/patient-tests/update/${editingPatientTest.patient_tests_id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editingPatientTest)
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("Patient test update failed:", errorText);
+        alert(`Patient test update failed: ${res.statusText}`);
+        return;
+      }
+
+      const data = await res.json();
+      console.log("Patient test update successful:", data);
+      
+      // Update the patient tests list
+      setPatientTests(patientTests.map(pt => 
+        pt.patient_tests_id === editingPatientTest.patient_tests_id ? editingPatientTest : pt
+      ));
+      
+      setShowEditPatientTestForm(false);
+      setEditingPatientTest(null);
+    } catch (error) {
+      console.error("Error updating patient test:", error);
+      alert("An error occurred during patient test update. Please try again.");
+    }
+  };
+
   return (
     <ErrorBoundary>
       <div className="patients-page-container">
@@ -188,7 +312,7 @@ const PatientsPage = () => {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th><th>Name</th><th>DOB</th><th>Gender</th><th>Contact</th><th>Email</th><th>Address</th>
+                  <th>ID</th><th>Name</th><th>DOB</th><th>Gender</th><th>Contact</th><th>Email</th><th>Address</th><th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -202,11 +326,16 @@ const PatientsPage = () => {
                       <td>{p.contact_number}</td>
                       <td>{p.email}</td>
                       <td>{p.address}</td>
+                      <td>
+                        <div className="action-buttons">
+                          <button className="edit-btn" onClick={() => handleEditPatient(p)}>Edit</button>
+                        </div>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7">No patients found</td>
+                    <td colSpan="8">No patients found</td>
                   </tr>
                 )}
               </tbody>
@@ -226,7 +355,7 @@ const PatientsPage = () => {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th><th>Name</th><th>Description</th><th>Type</th><th>Price</th><th>Duration</th>
+                  <th>ID</th><th>Name</th><th>Description</th><th>Type</th><th>Price</th><th>Duration</th><th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -239,11 +368,16 @@ const PatientsPage = () => {
                       <td>{t.test_type}</td>
                       <td>{t.price}</td>
                       <td>{t.duration}</td>
+                      <td>
+                        <div className="action-buttons">
+                          <button className="edit-btn" onClick={() => handleEditTest(t)}>Edit</button>
+                        </div>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6">No tests found</td>
+                    <td colSpan="7">No tests found</td>
                   </tr>
                 )}
               </tbody>
@@ -263,7 +397,7 @@ const PatientsPage = () => {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th><th>Patient ID</th><th>Patient Name</th><th>Test ID</th><th>Test Name</th><th>Added By</th>
+                  <th>ID</th><th>Patient ID</th><th>Patient Name</th><th>Test ID</th><th>Test Name</th><th>Added By</th><th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -276,11 +410,16 @@ const PatientsPage = () => {
                       <td>{pt.test_id}</td>
                       <td>{getTestName(pt.test_id)}</td>
                       <td>{pt.added_by}</td>
+                      <td>
+                        <div className="action-buttons">
+                          <button className="edit-btn" onClick={() => handleEditPatientTest(pt)}>Edit</button>
+                        </div>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6">No patient tests found</td>
+                    <td colSpan="7">No patient tests found</td>
                   </tr>
                 )}
               </tbody>
@@ -306,6 +445,137 @@ const PatientsPage = () => {
             <PopupForm title="Add Patient Test" data={newPatientTest} setData={setNewPatientTest} onSubmit={(e) =>
               handleSubmit(e, "patient-tests", newPatientTest, setShowPatientTestForm, fetchPatientTests)
             } onCancel={() => setShowPatientTestForm(false)} />
+          )}
+          
+          {/* Edit Forms */}
+          {showEditPatientForm && editingPatient && (
+            <div className="popup-overlay">
+              <div className="popup-card edit-popup-card">
+                <h3>Edit Patient</h3>
+                <form onSubmit={handleUpdatePatient}>
+                  {Object.entries(editingPatient)
+                    .filter(([key]) => key !== 'patient_id' && key !== 'created_at' && key !== 'updated_at')
+                    .map(([key, value]) => (
+                    <div className="form-group" key={key}>
+                      <label htmlFor={key}>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</label>
+                      <input
+                        id={key}
+                        type={key.includes("date") ? "date" : "text"}
+                        name={key}
+                        value={value || ''}
+                        onChange={(e) => setEditingPatient({ ...editingPatient, [key]: e.target.value })}
+                        required={['first_name', 'last_name', 'date_of_birth', 'gender'].includes(key)}
+                      />
+                    </div>
+                  ))}
+                  <div className="popup-buttons edit-popup-buttons">
+                    <button type="submit">Update</button>
+                    <button type="button" onClick={() => {
+                      setShowEditPatientForm(false);
+                      setEditingPatient(null);
+                    }}>Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Edit Test Form */}
+          {showEditTestForm && editingTest && (
+            <div className="popup-overlay">
+              <div className="popup-card edit-popup-card">
+                <h3>Edit Lab Test</h3>
+                <form onSubmit={handleUpdateTest}>
+                  {Object.entries(editingTest)
+                    .filter(([key]) => key !== 'test_id' && key !== 'created_at' && key !== 'updated_at')
+                    .map(([key, value]) => (
+                    <div className="form-group" key={key}>
+                      <label htmlFor={key}>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</label>
+                      <input
+                        id={key}
+                        type="text"
+                        name={key}
+                        value={value || ''}
+                        onChange={(e) => setEditingTest({ ...editingTest, [key]: e.target.value })}
+                        required={['test_name', 'test_type'].includes(key)}
+                      />
+                    </div>
+                  ))}
+                  <div className="popup-buttons edit-popup-buttons">
+                    <button type="submit">Update</button>
+                    <button type="button" onClick={() => {
+                      setShowEditTestForm(false);
+                      setEditingTest(null);
+                    }}>Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Edit Patient Test Form */}
+          {showEditPatientTestForm && editingPatientTest && (
+            <div className="popup-overlay">
+              <div className="popup-card edit-popup-card">
+                <h3>Edit Patient Test</h3>
+                <form onSubmit={handleUpdatePatientTest}>
+                  {Object.entries(editingPatientTest)
+                    .filter(([key]) => key !== 'patient_tests_id' && key !== 'created_at' && key !== 'updated_at')
+                    .map(([key, value]) => (
+                    <div className="form-group" key={key}>
+                      <label htmlFor={key}>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</label>
+                      {key === 'patient_id' ? (
+                        <select
+                          id={key}
+                          name={key}
+                          value={value || ''}
+                          onChange={(e) => setEditingPatientTest({ ...editingPatientTest, [key]: e.target.value })}
+                          required
+                        >
+                          <option value="">Select Patient</option>
+                          {patients.map(p => (
+                            <option key={p.patient_id} value={p.patient_id}>
+                              {p.first_name} {p.last_name}
+                            </option>
+                          ))}
+                        </select>
+                      ) : key === 'test_id' ? (
+                        <select
+                          id={key}
+                          name={key}
+                          value={value || ''}
+                          onChange={(e) => setEditingPatientTest({ ...editingPatientTest, [key]: e.target.value })}
+                          required
+                        >
+                          <option value="">Select Test</option>
+                          {tests.map(t => (
+                            <option key={t.test_id} value={t.test_id}>
+                              {t.test_name}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <input
+                          id={key}
+                          type="text"
+                          name={key}
+                          value={value || ''}
+                          onChange={(e) => setEditingPatientTest({ ...editingPatientTest, [key]: e.target.value })}
+                          required={['patient_id', 'test_id'].includes(key)}
+                        />
+                      )}
+                    </div>
+                  ))}
+                  <div className="popup-buttons edit-popup-buttons">
+                    <button type="submit">Update</button>
+                    <button type="button" onClick={() => {
+                      setShowEditPatientTestForm(false);
+                      setEditingPatientTest(null);
+                    }}>Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           )}
         </div>
       </div>

@@ -181,6 +181,18 @@ th {
   resize: vertical;
 }
 
+/* Add styling for textarea in the popup form */
+.popup-card textarea {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  min-height: 80px;
+  resize: vertical;
+}
+
 .popup-buttons {
   display: flex;
   justify-content: space-between;
