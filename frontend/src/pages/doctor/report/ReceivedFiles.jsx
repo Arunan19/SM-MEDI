@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Sidebar from "../../../components/doctor side bar"; // adjust the path based on your structure
+import "./report.css"; // adjust the path if needed
 
 const ReceivedFiles = () => {
   const [userId, setUserId] = useState("");
@@ -29,35 +31,40 @@ const ReceivedFiles = () => {
   };
 
   return (
-    <div>
-      <h2>Received Files</h2>
+    <div className="received-files-container">
+      <Sidebar />
+      <div className="received-files-content">
+        <h2>Received Files</h2>
 
-      <input
-        type="text"
-        value={userId}
-        onChange={(e) => setUserId(e.target.value)}
-        placeholder="Enter your user ID"
-      />
-      <button onClick={handleFetchFiles}>Load Files</button>
+        <div className="input-section">
+          <input
+            type="text"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            placeholder="Enter your user ID"
+          />
+          <button onClick={handleFetchFiles}>Load Files</button>
+        </div>
 
-      {loaded && files.length === 0 && <p>No files received.</p>}
+        {loaded && files.length === 0 && <p>No files received.</p>}
 
-      <ul>
-        {files.map((file) => (
-          <li key={file.id}>
-            <p><strong>From:</strong> {file.sender_id}</p>
-            <p><strong>Message:</strong> {file.message}</p>
-            <a
-              href={file.file_path}
-              download={file.file_name}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Download {file.file_name}
-            </a>
-          </li>
-        ))}
-      </ul>
+        <ul className="file-list">
+          {files.map((file) => (
+            <li key={file.id} className="file-item">
+              <p><strong>From:</strong> {file.sender_id}</p>
+              <p><strong>Message:</strong> {file.message}</p>
+              <a
+                href={file.file_path}
+                download={file.file_name}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Download {file.file_name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

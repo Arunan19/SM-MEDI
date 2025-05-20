@@ -14,6 +14,8 @@ const patientTestRoutes = require('./routes/patientTestRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const requestRoutes = require("./routes/sampleRequestRoutes");
 const sendFileRoutes = require("./routes/sendFile");
+const reportRoutes = require('./routes/reports');
+
 
 
 const app = express();
@@ -33,6 +35,7 @@ app.use('/api/notifications', notificationRoutes);
 
 app.use("/api/requests", requestRoutes);
 app.use("/api", sendFileRoutes);
+app.use('/api/reports', reportRoutes);
 
 // Default route
 app.get('/', (req, res) => {

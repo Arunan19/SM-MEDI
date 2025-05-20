@@ -15,10 +15,10 @@ const Sidebar = () => {
       <button className="sidebar-item" onClick={() => navigate("/make-request")}>
         <FontAwesomeIcon icon={faClipboardList} className="icon" /> Make Request
       </button>
-      <button className="sidebar-item" onClick={() => navigate("/reports")}>
+      <button className="sidebar-item" onClick={() => navigate("/received-files")}>
         <FontAwesomeIcon icon={faFileAlt} className="icon" /> Reports
       </button>
-      <button className="sidebar-item logout" onClick={() => navigate("/logout")}>
+      <button className="sidebar-item logout" onClick={() => navigate("/logoutD")}>
         <FontAwesomeIcon icon={faSignOutAlt} className="icon" /> Logout
       </button>
     </div>

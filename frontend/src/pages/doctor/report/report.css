@@ -1,0 +1,51 @@
+.received-files-container {
+  display: flex;
+   padding: 25rem;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.received-files-content {
+  flex: 1;
+  padding: 20px;
+  margin: left 10rem ;
+}
+
+.input-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-section input {
+  padding: 8px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-section button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.input-section button:hover {
+  background-color: #0056b3;
+}
+
+.file-list {
+  list-style: none;
+  padding: 0;
+}
+
+.file-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}

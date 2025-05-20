@@ -24,11 +24,13 @@ const Sidebar = () => {
       <button className="sidebar-item"onClick={() => navigate("/notification")}>
         <FontAwesomeIcon icon={faUsers} /> Notifications
         </button>
-      <button className="sidebar-item"><FontAwesomeIcon icon={faFileAlt} /> Reports</button>
+      <button className="sidebar-item"onClick={() => navigate("/report-viewer")}>
+        <FontAwesomeIcon icon={faFileAlt} /> Reports
+        </button>
       <button className="sidebar-item"onClick={() => navigate("/patients")}>
         <FontAwesomeIcon icon={faUserInjured} /> Patients
         </button>
-      <button className="sidebar-item logout"><FontAwesomeIcon icon={faSignOutAlt} /> Logout</button>
+      <button className="sidebar-item logout"onClick={() => navigate("/logoutA")}><FontAwesomeIcon icon={faSignOutAlt} /> Logout</button>
     </div>
   );
 };

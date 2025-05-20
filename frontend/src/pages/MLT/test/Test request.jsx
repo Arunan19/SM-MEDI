@@ -104,19 +104,10 @@ const TestRequests = () => {
                   <p><strong>Doctor ID</strong>: {req.user_id}</p>
                   <p><strong>No of Samples</strong>: {req.number_of_samples}</p>
                   <p><strong>Location</strong>: {req.location}</p>
-                  <p><strong>Collection Time</strong>: {req.collection_time}</p>
+                 
                 </div>
 
-                <div className="assign-to-container">
-                  <input
-                    type="text"
-                    placeholder="Assign to..."
-                    value={assignToMap[req.id] || ""}
-                    onChange={(e) =>
-                      setAssignToMap({ ...assignToMap, [req.id]: e.target.value })
-                    }
-                  />
-                </div>
+               
 
                 
               </div>
